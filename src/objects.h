@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gc.h"
+#include "ast.h"
 
 /*
  * Class Mixin for the different object types
@@ -98,6 +99,18 @@ struct CharacterVector : RVal, RValOps<CharacterVector> {
  * A Double vector
  *
  * consists of an array of doubles and a size.
+ *
+ *
+ * Layout of a double vector:
+ *
+ *  | -- RVal ------------
+ *  |  type tag
+ *  |  mark bit
+ *  | -- DoubleVector ----
+ *  |  size
+ *  |  double
+ *  |  double
+ *  |  ...
  * 
  */
 struct DoubleVector : RVal, RValOps<DoubleVector> {
