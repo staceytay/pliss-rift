@@ -4,7 +4,8 @@ message(STATUS "Loading local configuration")
 set(LLVM_COMPILE_DIR "${CMAKE_SOURCE_DIR}/../llvm")
 
 # Specify whether to link against debug, or release version of LLVM
-set(LLVM_LINK_AGAINST "Release")
+# set(LLVM_LINK_AGAINST "Release")
+set(LLVM_LINK_AGAINST "Brew")
 
 # unless your setup deviates from the README.md you do not have to touch the next lines
 
@@ -12,6 +13,8 @@ if(LLVM_LINK_AGAINST STREQUAL "Release")
     set(LLVM_DIR "${LLVM_COMPILE_DIR}/release/cmake/modules/CMakeFiles")
 elseif(LLVM_LINK_AGAINST STREQUAL "Debug")
     set(LLVM_DIR "${LLVM_COMPILE_DIR}/debug/cmake/modules/CMakeFiles")
+elseif(LLVM_LINK_AGAINST STREQUAL "Brew")
+    set(LLVM_DIR "/usr/local/opt/llvm/lib/cmake/llvm")
 else()
     message(FATAL_ERROR "Unknown LLVM build type: ${LLVM_LINK_AGAINST}")
 endif()
@@ -19,7 +22,8 @@ endif()
 message(STATUS "Linking to LLVM at ${LLVM_DIR} in ${LLVM_LINK_AGAINST} mode")
 
 # due to problems with llvm makefiles and headers, we are including the correct headers explicitly
-include_directories("${LLVM_COMPILE_DIR}/src/include")
+# include_directories("${LLVM_COMPILE_DIR}/src/include")
+include_directories("/usr/local/opt/llvm/include/llvm")
 
 # flag that local config has been read
 set(LOCAL_CONFIG 1)
