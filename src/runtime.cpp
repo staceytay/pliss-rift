@@ -154,17 +154,23 @@ RVal * genericAdd(RVal * lhs, RVal * rhs) {
 }
 
 RVal * doubleSub(DoubleVector * lhs, DoubleVector * rhs) {
-    // TODO
-    assert(false);
-    return nullptr;
+    int resultSize = max(lhs->size, rhs->size);
+    DoubleVector* res = DoubleVector::New(resultSize);
+    for (int i = 0; i < resultSize; ++i)
+        (*res)[i] = (*lhs)[i % lhs->size] - (*rhs)[i % rhs->size];
+    return res;
 }
 
 
 
 RVal * genericSub(RVal * lhs, RVal * rhs) {
-    // TODO
-    assert(false);
-    return nullptr;
+    if (lhs->type != rhs->type)
+        throw "Incompatible types for binary operator";
+    if (auto l = DoubleVector::Cast(lhs)) {
+        return doubleSub(l, static_cast<DoubleVector*>(rhs));
+    } else {
+        throw "Invalid types for binary add";
+    }
 }
 
 RVal * doubleMul(DoubleVector * lhs, DoubleVector * rhs) {
