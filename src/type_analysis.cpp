@@ -52,6 +52,8 @@ void TypeAnalysis::genericGetElement(CallInst * ci) {
 void TypeAnalysis::analyzeCallInst(CallInst* ci, StringRef s) {
     if (s == "doubleVectorLiteral") {
         state.update(ci, AType::D1);
+    } else if (s == "characterVectorLiteral") {
+        state.update(ci, AType::CV);
     } else if (s == "genericGetElement") {
         genericGetElement(ci);
     } else if (s == "genericSetElement") {
