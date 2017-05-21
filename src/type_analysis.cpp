@@ -64,7 +64,7 @@ void TypeAnalysis::analyzeCallInst(CallInst* ci, StringRef s) {
         // length() returns a scalar
         state.update(ci, AType::D1);
     } else if (s == "type") {
-        // TODO
+        state.update(ci, AType::CV);
     } else if (s == "c") {
         // make sure the types to c are correct
         AType * t1 = state.get(ci->getArgOperand(1));
