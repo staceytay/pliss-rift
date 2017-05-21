@@ -173,8 +173,19 @@ void Compiler::visit(ast::BinExp * n) {
 
 /** Rift Function Call. First obtain the function pointer, then arguments. */
 void Compiler::visit(ast::UserCall * n) {
-    //TODO
-    assert(false);
+    vector<Value *> args;
+    n->name->accept(this);
+    args.push_back(result);
+
+    auto argc = fromInt(static_cast<int>(n->args.size()));
+    args.push_back(argc);
+
+    for (ast::Exp * arg : n->args) {
+        arg->accept(this);
+        args.push_back(result);
+    }
+
+    result = cur.b->CreateCall(call(m.get()), args, "");
 }
 
 /** Call length runtime, box the scalar result  */
