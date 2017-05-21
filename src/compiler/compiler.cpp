@@ -256,8 +256,24 @@ void Compiler::visit(ast::IfElse * n) {
             context(), "afterIf", cur.f, nullptr);
     Value * trueResult;
     Value * falseResult;
-    //TODO
-    assert(false);
+
+    n->guard->accept(this);
+    Value * guard = RUNTIME_CALL(toBoolean, result);
+
+    cur.b->CreateCondBr(guard, ifTrue, ifFalse);
+
+    cur.b->SetInsertPoint(ifTrue);
+    n->ifClause->accept(this);
+    trueResult = result;
+    ifTrue = cur.b->GetInsertBlock();
+    cur.b->CreateBr(merge);
+
+    cur.b->SetInsertPoint(ifFalse);
+    n->elseClause->accept(this);
+    falseResult = result;
+    ifFalse = cur.b->GetInsertBlock();
+    cur.b->CreateBr(merge);
+
     // Set BB to merge point and emit a phi n for the then-else results
     cur.b->SetInsertPoint(merge);
     auto phi = cur.b->CreatePHI(type::ptrValue, 2, "ifPhi");
