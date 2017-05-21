@@ -129,7 +129,15 @@ void Specialize::genericEq() {
 }
 
 void Specialize::genericGetElement() {
-    // TODO
+    Value * lhs = ins->getOperand(0);
+    Value * rhs = ins->getOperand(1);
+    AType * lhsType = state().get(lhs);
+    AType * rhsType = state().get(rhs);
+
+    if (lhsType->isDouble() and rhsType->isDouble()) {
+        updateDoubleOp(Compiler::doubleGetElement(m), lhs, rhs, lhsType->lub(rhsType));
+        changed_ = true;
+    }
 }
 
 void Specialize::genericC() {
