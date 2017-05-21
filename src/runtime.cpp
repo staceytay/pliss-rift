@@ -162,10 +162,10 @@ RVal * genericAdd(RVal * lhs, RVal * rhs) {
 
 RVal * doubleSub(DoubleVector * lhs, DoubleVector * rhs) {
     int resultSize = max(lhs->size, rhs->size);
-    DoubleVector* res = DoubleVector::New(resultSize);
+    DoubleVector* result = DoubleVector::New(resultSize);
     for (int i = 0; i < resultSize; ++i)
-        (*res)[i] = (*lhs)[i % lhs->size] - (*rhs)[i % rhs->size];
-    return res;
+        (*result)[i] = (*lhs)[i % lhs->size] - (*rhs)[i % rhs->size];
+    return result;
 }
 
 
